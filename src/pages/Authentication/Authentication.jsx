@@ -19,7 +19,7 @@ const Authentication = () => {
         <div className="px-20 flex flex-col justify-center h-full">
           <Card className="card p-8">
             <div className="flex flex-col items-center mb-5 space-y-1">
-              <h1 className="logo text-center">Ismail Media</h1>
+              <h1 className="logo text-center">Social</h1>
               <p className="text-center text-sm w-[70%]">
                 Connecting lives, Sharing Stories: Your Social World Your Way
               </p>
