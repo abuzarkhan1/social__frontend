@@ -16,12 +16,12 @@ const naviagtationMenu = [
   {
     title: "Reels",
     icon: <ExploreIcon />,
-    path: "/",
+    path: "/reels",
   },
   {
     title: "Create Reels",
     icon: <ControlPointIcon />,
-    path: "/",
+    path: "/create-reels",
   },
   {
     title: "Notifications",
@@ -31,7 +31,7 @@ const naviagtationMenu = [
   {
     title: "Message",
     icon: <MessageIcon />,
-    path: "/",
+    path: "/message",
   },
   {
     title: "Lists",
@@ -46,7 +46,7 @@ const naviagtationMenu = [
   {
     title: "Profile",
     icon: <AccountCircleIcon />,
-    path: "/",
+    path: "/profile",
   },
 ];
 

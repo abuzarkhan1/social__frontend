@@ -1,12 +1,15 @@
 import React from "react";
 import navigationMenu from "./SidebarNavigation";
 import { Avatar, Button, Card, Divider, Menu, MenuItem } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
 
+
+  const navigate = useNavigate();
+  const { auth } = useSelector((store) => store);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -15,6 +18,15 @@ const Sidebar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleNavigate = (item) => {
+
+    if(item.title === "Profile"){
+      navigate(`/profile/${auth.user?.id}`)
+    }
+
+  }
+
 
 
   return (
@@ -26,7 +38,7 @@ const Sidebar = () => {
 
         <div className="space-y-8">
           {navigationMenu.map((item) => (
-            <div className=" cursor-pointer flex space-x-3 items-center">
+            <div onClick={()=>handleNavigate(item)} className=" cursor-pointer flex space-x-3 items-center">
               {item.icon}
               <p className="text-xl">{item.title}</p>
             </div>
@@ -44,31 +56,30 @@ const Sidebar = () => {
               alt=""
             />
             <div>
-              <p className="font-bold">UserName</p>
-              <p className="opacity-70">@userName</p>
+              <p className="font-bold">{auth.user?.firstName +" "+ auth.user?.lastName}</p>
+              <p className="opacity-70">@{auth.user?.firstName.toLowerCase() +" "+ auth.user?.lastName.toLowerCase()}</p>
             </div>
           </div>
           <Button
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          <MoreVertIcon/>
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
-        </Menu>
-          
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            <MoreVertIcon />
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
         </div>
       </div>
     </Card>

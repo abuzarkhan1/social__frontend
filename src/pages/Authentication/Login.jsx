@@ -21,14 +21,14 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (values) => {
-    console.log("submit");
     dispatch(loginUserAction({ data: values }));
+    console.log({data:values});
   };
   return (
     <>
       <Formik
         onSubmit={handleSubmit}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
         initialValues={initialValues}
       >
         <Form className="space-y-5">

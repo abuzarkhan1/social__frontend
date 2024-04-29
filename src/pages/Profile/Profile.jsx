@@ -1,6 +1,9 @@
-import { Avatar, Box, Button, Card, Tab, Tabs } from "@mui/material";
 import React from "react";
+import { Avatar, Box, Button, Card, Tab, Tabs } from "@mui/material";
 import PostCard from "../../components/Post/PostCard";
+import UserReelCard from "../../components/Reels/UserReelCard";
+import { useSelector } from "react-redux";
+import ProfileModel from "./ProfileModel";
 
 const tabs = [
   { value: "post", name: "Post" },
@@ -10,15 +13,25 @@ const tabs = [
 ];
 
 const posts = [1, 1, 1, 1, 1];
+const reels = [1, 1, 1, 1, 1];
 
 const Profile = () => {
+  const { auth } = useSelector((store) => store);
   const [value, setValue] = React.useState("post");
+  const [open, setOpen] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  // const { id } = useParams();
+  const handleOpenProfileModel = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Card className="my-10 w-[70%]">
       <div className="rounded-md">
@@ -34,20 +47,25 @@ const Profile = () => {
             className="transform -translate-y-24"
             sx={{ width: "10rem", height: "10rem" }}
           />
-          {true ? (
-            <Button sx={{ borderRadius: "20px" }} variant="outlined">
-              Edit Profile
-            </Button>
-          ) : (
-            <Button sx={{ borderRadius: "20px" }} varient="outlined">
-              Follow
-            </Button>
-          )}
+          <Button
+            sx={{ borderRadius: "20px" }}
+            variant="outlined"
+            onClick={handleOpenProfileModel}
+          >
+            Edit Profile
+          </Button>
         </div>
         <div className="p-5">
           <div>
-            <h1 className="py-1 font-bold text-xl">Ismail Azam</h1>
-            <p>@ismailAzaam</p>
+            <h1 className="py-1 font-bold text-xl">
+              {auth.user?.firstName + " " + auth.user?.lastName}
+            </h1>
+            <p>
+              @
+              {auth.user?.firstName?.toLowerCase() +
+                " " +
+                auth.user?.lastName?.toLowerCase()}
+            </p>
           </div>
           <div className="flex gap-5 items-center py-3">
             <span>41 posts</span>
@@ -67,7 +85,12 @@ const Profile = () => {
               aria-label="wrapped label tabs example"
             >
               {tabs.map((item) => (
-                <Tab value={item.value} label={item.name} wrapped />
+                <Tab
+                  key={item.value}
+                  value={item.value}
+                  label={item.name}
+                  wrapped
+                />
               ))}
             </Tabs>
           </Box>
@@ -75,24 +98,32 @@ const Profile = () => {
           <div className="flex justify-center">
             {value === "post" ? (
               <div className="space-y-5 w-[70%] my-10">
-                {posts.map((item) => (
-                  <div className="border border-slate-100">
+                {posts.map((item, index) => (
+                  <div
+                    key={index}
+                    className="border border-slate-100 rounded-md"
+                  >
                     <PostCard />
                   </div>
                 ))}
               </div>
-            ) : value==="reels" ? <div className="flex gap-5">
-            
-            </div> : (
-              ""
+            ) : value === "reels" ? (
+              <div className="flex justify-center flex-wrap gap-2 my-2">
+                {reels.map((item, index) => (
+                  <UserReelCard key={index} />
+                ))}
+              </div>
+            ) : (
+              <div>Repost</div>
             )}
           </div>
         </section>
       </div>
+      <section>
+        <ProfileModel open={open} handleClose={handleClose} />
+      </section>
     </Card>
   );
 };
 
 export default Profile;
-
-// 3:00:55

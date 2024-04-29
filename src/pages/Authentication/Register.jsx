@@ -27,7 +27,6 @@ const validationSchema = {
 };
 
 const Register = () => {
-  const [formValues, setFormValues] = useState();
   const [gender, setGender] = useState("");
 
   const dispatch = useDispatch();
