@@ -3,7 +3,7 @@ import navigationMenu from "./SidebarNavigation";
 import { Avatar, Button, Card, Divider, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
 

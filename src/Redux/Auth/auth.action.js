@@ -70,6 +70,16 @@ export const registerUserAction = (loginData) => async (dispatch) => {
 
 export const getProfileAction = (jwt) => async (dispatch) => {
   dispatch({ type: GET_PROFILE_REQUEST });
+  
+  // Check if jwt is not undefined or null
+  if (!jwt) {
+    dispatch({
+      type: GET_PROFILE_FAILURE,
+      payload: "JWT token is missing or invalid",
+    });
+    return; // Exit the function early
+  }
+
   try {
     const { data } = await axios.get(`${base_url}/api/users/profile`, {
       headers: {
@@ -91,6 +101,7 @@ export const getProfileAction = (jwt) => async (dispatch) => {
   }
 };
 
+
 export const updateProfileAction = (reqData) => async (dispatch) => {
     dispatch({ type: UPDATE_PROFILE_REQUEST });
     try {
@@ -110,5 +121,3 @@ export const updateProfileAction = (reqData) => async (dispatch) => {
     }
   };
   
-
-//   3:27

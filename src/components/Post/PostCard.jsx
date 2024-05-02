@@ -5,20 +5,40 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Divider,
   IconButton,
   Typography,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { red } from "@mui/material/colors";
-import React from "react";
+import React, { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import { useDispatch } from "react-redux";
+import { createCommentAction } from "../../Redux/Post/post.action";
 
-const PostCard = () => {
+const PostCard = ({ item }) => {
+  const dispatch = useDispatch();
+  const [showComments, setShowComments] = useState(false);
+
+  const handleShowComments = () => {
+    setShowComments(!showComments);
+  };
+
+  const handleCreateComment = (content) => {
+    const reqData = {
+      postId: item.id,
+      data: {
+        content,
+      },
+    };
+    dispatch(createCommentAction(reqData));
+  };
+
   return (
     <Card>
       <CardHeader
@@ -32,20 +52,23 @@ const PostCard = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="User Full Name"
-        subheader="@Userfullname"
+        title={item.user.firstName + " " + item.user.lastName}
+        subheader={
+          "@" +
+          item.user.firstName.toLowerCase() +
+          "_" +
+          item.user.lastName.toLowerCase()
+        }
       />
       <CardMedia
         component="img"
         height="194"
-        image="https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_640.jpg"
+        image={item.image}
         alt="Paella dish"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {item.caption}
         </Typography>
       </CardContent>
       <CardActions className="flex justify-between" disableSpacing>
@@ -57,16 +80,50 @@ const PostCard = () => {
             <ShareIcon />
           </IconButton>
 
-          <IconButton>
+          <IconButton onClick={handleShowComments}>
             <ChatBubbleIcon />
           </IconButton>
         </div>
         <div>
-         <IconButton>
-         {true?<BookmarkIcon/>:<BookmarkBorderIcon/>}
-         </IconButton>
+          <IconButton>
+            {true ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+          </IconButton>
         </div>
       </CardActions>
+
+      {showComments && (
+        <section>
+          <div className="flex items-center space-x-3 mx-3 my-5">
+            <Avatar />
+
+            <input
+              onKeyPress={(e) => {
+                if (e.key == "Enter") {
+                  handleCreateComment(e.target.value);
+                  console.log("Enter Please", e.target.value);
+                }
+              }}
+              className="w-full outline-none bg-transparent border border-[#3b4054] rounded-full px-5 py-2"
+              type="text"
+              placeholder="write your comment"
+            />
+          </div>
+
+          <Divider />
+
+          {item.comments.map((comment) => (
+            <div className="mx-3 space-y-2 my-5 text-xs">
+              <div className="flex items-center space-x-5">
+                <Avatar sx={{ height: "2rem", width: "2rem", font: "0.8rem" }}>
+                  {comment.user.firstName[0]}
+                </Avatar>
+
+                <p>{comment.content}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
     </Card>
   );
 };

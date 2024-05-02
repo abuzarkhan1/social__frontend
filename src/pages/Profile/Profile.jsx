@@ -14,6 +14,7 @@ const tabs = [
 
 const posts = [1, 1, 1, 1, 1];
 const reels = [1, 1, 1, 1, 1];
+const saved = [1, 1, 1, 1, 1];
 
 const Profile = () => {
   const { auth } = useSelector((store) => store);
@@ -63,7 +64,7 @@ const Profile = () => {
             <p>
               @
               {auth.user?.firstName?.toLowerCase() +
-                " " +
+                "" +
                 auth.user?.lastName?.toLowerCase()}
             </p>
           </div>
@@ -111,6 +112,12 @@ const Profile = () => {
               <div className="flex justify-center flex-wrap gap-2 my-2">
                 {reels.map((item, index) => (
                   <UserReelCard key={index} />
+                ))}
+              </div>
+            ) : value === "saved" ? (
+              <div className="flex justify-center flex-wrap gap-2 my-2">
+                {saved.map((item) => (
+                  <PostCard />
                 ))}
               </div>
             ) : (
