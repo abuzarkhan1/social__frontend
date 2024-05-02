@@ -62,7 +62,7 @@ export const getUsersPostAction = (userId) => async (dispatch) => {
   dispatch({ type: GET_USERS_POST_REQUEST });
 
   try {
-    const { data } = await api.post(`/api/posts/user/${userId}`);
+    const { data } = await api.get(`/api/posts/user/${userId}`);
     dispatch({ type: GET_ALL_POST_SUCCESS, payload: data });
     console.log("get users post", data);
   } catch (error) {
@@ -75,7 +75,7 @@ export const likePostAction = (postId) => async (dispatch) => {
   dispatch({ type: LIKE_POST_REQUEST });
 
   try {
-    const { data } = await api.post(`/api/posts/like/${postId}`);
+    const { data } = await api.put(`/api/posts/like/${postId}`);
     dispatch({ type: LIKE_POST_SUCCESS, payload: data });
     console.log("like post", data);
   } catch (error) {
@@ -83,3 +83,4 @@ export const likePostAction = (postId) => async (dispatch) => {
     dispatch({ type: LIKE_POST_FAILURE, payload: error });
   }
 };
+
