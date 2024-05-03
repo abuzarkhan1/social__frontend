@@ -13,6 +13,9 @@ const {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
+  SEARCH_USER_REQUEST,
+  SEARCH_USER_SUCCESS,
+  SEARCH_USER_FAILURE,
 } = require("./auth.actionType");
 
 export const loginUserAction = (loginData) => async (dispatch) => {
@@ -71,13 +74,12 @@ export const registerUserAction = (loginData) => async (dispatch) => {
 export const getProfileAction = (jwt) => async (dispatch) => {
   dispatch({ type: GET_PROFILE_REQUEST });
   
-  // Check if jwt is not undefined or null
   if (!jwt) {
     dispatch({
       type: GET_PROFILE_FAILURE,
       payload: "JWT token is missing or invalid",
     });
-    return; // Exit the function early
+    return;
   }
 
   try {
@@ -116,6 +118,28 @@ export const updateProfileAction = (reqData) => async (dispatch) => {
       
       dispatch({
         type: UPDATE_PROFILE_FAILURE,
+        payload: error,
+      });
+    }
+  };
+  
+  export const searchUser = (query) => async (dispatch) => {
+    dispatch({ type: SEARCH_USER_REQUEST });
+  
+    try {
+      const { data } = await api.get(`/api/users/search?query=${query}`)
+  
+      console.log("search user", data);
+  
+      dispatch({
+        type: SEARCH_USER_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      console.log('search User failuree');
+      
+      dispatch({
+        type: SEARCH_USER_FAILURE,
         payload: error,
       });
     }
