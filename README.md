@@ -1,1 +1,1 @@
-frontend of social media application
+frontend of social media Project
